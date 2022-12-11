@@ -1,10 +1,10 @@
-package admin;
+package user;
 
 import java.util.ArrayList;
 
 public class UserDataBase {
     private static UserDataBase instance = null;
-    public ArrayList<Integer> users;
+    public ArrayList<User> users;
     private UserDataBase(){}
     public static UserDataBase getInstance() {
         if(instance == null) {
@@ -13,7 +13,15 @@ public class UserDataBase {
         return instance;
     }
 
-    void newArray() {
+    public void newArray() {
         users = new ArrayList<>();
+    }
+
+    public ArrayList<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(ArrayList<User> users) {
+        this.users = users;
     }
 }
