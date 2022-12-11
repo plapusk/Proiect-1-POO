@@ -17,7 +17,7 @@ public class Main {
 
         CommandExecute command = new CommandExecute(inputData);
 
-        ArrayNode output = objectMapper.createArrayNode();
+        ArrayNode output = command.doCommand(objectMapper);
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
 
         objectWriter.writeValue(new File(args[1]), output);
