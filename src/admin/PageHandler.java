@@ -7,6 +7,7 @@ import user.User;
 public class PageHandler {
     private Page currentPage;
     private User currentUser;
+    private User userError;
     public PageHandler() {
         currentPage = NotLogged.getInstance();
         currentUser = null;
@@ -35,5 +36,13 @@ public class PageHandler {
 
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
+    }
+
+    public User getUserError() {
+        return userError;
+    }
+
+    public void setUserError(User userError) {
+        this.userError = userError;
     }
 }

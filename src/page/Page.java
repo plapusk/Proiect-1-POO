@@ -1,8 +1,12 @@
 package page;
 
+import admin.PageHandler;
+import input.ActionsInput;
+import user.User;
+
 import java.util.ArrayList;
 
-public class Page {
+public abstract class Page {
     private ArrayList<Page> subPages;
     private String name;
 
@@ -18,6 +22,8 @@ public class Page {
         }
         return null;
     }
+
+    public abstract String onPage(ActionsInput action, PageHandler pageHandler);
     public ArrayList<Page> getSubPages() {
         return subPages;
     }

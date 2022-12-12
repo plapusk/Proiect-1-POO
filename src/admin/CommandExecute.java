@@ -3,7 +3,6 @@ package admin;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import input.ActionsInput;
 import input.Input;
 import input.MoviesInput;
@@ -12,14 +11,13 @@ import movie.Movie;
 import movie.MovieDataBase;
 import user.User;
 import user.UserDataBase;
-import page.Page;
 
 import java.util.ArrayList;
 
 public class CommandExecute {
     private PageHandler pageHandler;
     private final Input input;
-    public CommandExecute(Input input) {
+    public CommandExecute(final Input input) {
         this.input = input;
         pageHandler = new PageHandler();
         UserDataBase.getInstance().newArray();
@@ -28,7 +26,7 @@ public class CommandExecute {
         MovieDataBase.getInstance().setMovies(convertMovieInput(input.getMovies()));
     }
 
-    private ArrayList<User> convertUserInput(ArrayList<UsersInput> usersInputs) {
+    private ArrayList<User> convertUserInput(final ArrayList<UsersInput> usersInputs) {
         ArrayList<User> users = new ArrayList<>();
         for (var userInput: usersInputs) {
             users.add(new User(userInput));
@@ -36,7 +34,7 @@ public class CommandExecute {
         return users;
     }
 
-    private ArrayList<Movie> convertMovieInput(ArrayList<MoviesInput> moviesInputs) {
+    private ArrayList<Movie> convertMovieInput(final ArrayList<MoviesInput> moviesInputs) {
         ArrayList<Movie> movies = new ArrayList<>();
         for (var movieInput: moviesInputs) {
             movies.add(new Movie(movieInput));
@@ -44,29 +42,51 @@ public class CommandExecute {
         return movies;
     }
 
-    public ArrayNode doCommand(ObjectMapper mapper) {
+    public ArrayNode doCommand(final ObjectMapper mapper) {
         ArrayNode output = mapper.createArrayNode();
         for (var action: input.getActions()) {
-            if(action.getType().equals("change page")) {
-
-            } else if (action.getType().equals("change page")) {
-
+            if (action.getType().equals("change page")) {
+                output = changePage(mapper, output, action);
+            } else if (action.getType().equals("on page")) {
+                output.add(createError(mapper, pageHandler.getCurrentPage().onPage(action,
+                        pageHandler)));
+            } else {
+                output.add(createError(mapper, "Error"));
             }
         }
         return output;
     }
 
-    private ArrayNode changePage(ObjectMapper mapper, ArrayNode output, ActionsInput action) {
-        if (pageHandler.changePage(action.getPage()) == 0)
+    private ArrayNode changePage(final ObjectMapper mapper,
+                                 final ArrayNode output, final ActionsInput action) {
+        if (action.getPage().equals("logout")) {
+            pageHandler.setCurrentUser(null);
+        }
+        if (pageHandler.changePage(action.getPage()) == 0) {
             return output;
+        }
+
+        output.add(createError(mapper, "Error"));
+        return output;
+    }
+
+    private ObjectNode createError(final ObjectMapper mapper, final String error) {
         ObjectNode obj = mapper.createObjectNode();
-        obj.put("error", "Error");
-        if (pageHandler.getCurrentUser() == null) {
+        if (error != null) {
+            obj.put("error", error);
             obj.set("currentMoviesList", mapper.createArrayNode());
             obj.put("currentUser", mapper.nullNode());
+            return obj;
         } else {
-            //obj.set("currentMoviesList", pageHandler.getCurrentUser().)
+            obj.put("error", mapper.nullNode());
         }
-        return output;
+
+        obj.set("currentMoviesList", mapper.createArrayNode());
+        if (pageHandler.getUserError() == null) {
+            obj.put("currentUser", mapper.nullNode());
+        } else {
+            obj.put("currentUser", pageHandler.getUserError().getJSON(mapper));
+        }
+        return obj;
     }
 }

@@ -1,5 +1,8 @@
 package movie;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import input.MoviesInput;
 
 import java.util.ArrayList;
@@ -11,8 +14,10 @@ public class Movie {
     private ArrayList<String> genres;
     private ArrayList<String> actors;
     private ArrayList<String> countriesBanned;
-    private boolean watched;
-    private boolean liked;
+    private int numWatched;
+    private int numLiked;
+    private int numRating;
+    private int rating;
 
     public Movie(MoviesInput moviesInput) {
         this.name = moviesInput.getName();
@@ -21,19 +26,49 @@ public class Movie {
         this.genres = moviesInput.getGenres();
         this.actors = moviesInput.getActors();
         this.countriesBanned = moviesInput.getCountriesBanned();
-        this.watched = false;
-        this.liked = false;
+        this.numWatched = 0;
+        this.numLiked = 0;
+        this.numRating = 0;
+        this.rating = 0;
     }
 
-    public Movie(Movie moviesInput) {
+    /*public Movie(Movie moviesInput) {
         this.name = moviesInput.getName();
         this.year = moviesInput.getYear();
         this.duration = moviesInput.getDuration();
         this.genres = moviesInput.getGenres();
         this.actors = moviesInput.getActors();
         this.countriesBanned = moviesInput.getCountriesBanned();
-        this.watched = false;
-        this.liked = false;
+        this.numWatched = 0;
+        this.numLiked = 0;
+        this.numRating = 0;
+        this.rating = 0;
+    }*/
+
+    public ObjectNode movieJSON(ObjectMapper mapper) {
+        ObjectNode obj = mapper.createObjectNode();
+        obj.put("name", name);
+        obj.put("year", year);
+        obj.put("duration", duration);
+        ArrayNode arr = mapper.createArrayNode();
+        for (var genre: genres)
+            arr.add(genre);
+        obj.set("genres", arr);
+        arr = mapper.createArrayNode();
+        for (var actor: actors)
+            arr.add(actor);
+        obj.set("actors", arr);
+        arr = mapper.createArrayNode();
+        for (var countrieBanned: countriesBanned)
+            arr.add(countrieBanned);
+        obj.set("countriesBanned", arr);
+        obj.put("numLikes", numLiked);
+        if (numRating != 0)
+            obj.put("rating", rating / numRating);
+        else
+            obj.put("rating", 0);
+        obj.put("numRating", numRating);
+        return obj;
     }
 
     public String getName() {
@@ -82,21 +117,5 @@ public class Movie {
 
     public void setCountriesBanned(ArrayList<String> countriesBanned) {
         this.countriesBanned = countriesBanned;
-    }
-
-    public boolean isWatched() {
-        return watched;
-    }
-
-    public void setWatched(boolean watched) {
-        this.watched = watched;
-    }
-
-    public boolean isLiked() {
-        return liked;
-    }
-
-    public void setLiked(boolean liked) {
-        this.liked = liked;
     }
 }

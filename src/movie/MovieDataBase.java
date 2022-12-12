@@ -1,5 +1,8 @@
 package movie;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+
 import java.util.ArrayList;
 
 public class MovieDataBase {
@@ -13,6 +16,12 @@ public class MovieDataBase {
         return instance;
     }
 
+    public ArrayNode getJSON(ObjectMapper mapper) {
+        ArrayNode arr = mapper.createArrayNode();
+        for (var movie: movies)
+            arr.add(movie.movieJSON(mapper));
+        return arr;
+    }
     public void newArray() {
         movies = new ArrayList<>();
     }
