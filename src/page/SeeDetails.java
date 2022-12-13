@@ -3,12 +3,10 @@ package page;
 import admin.PageHandler;
 import input.ActionsInput;
 import movie.Movie;
-import movie.MovieDataBase;
-import user.UserDataBase;
 
 import java.util.ArrayList;
 
-public class SeeDetails extends Page{
+public final class SeeDetails extends Page {
     private static SeeDetails instance = null;
 
     private SeeDetails() {
@@ -19,37 +17,60 @@ public class SeeDetails extends Page{
         ArrayList<Page> subPages = super.getSubPages();
         subPages.add(this);
         subPages.add(MoviePage.getInstance());
+        subPages.add(HomePage.getInstance());
         subPages.add(Upgrades.getInstance());
         subPages.add(NotLogged.getInstance());
     }
-    public String onPage(ActionsInput action, PageHandler pageHandler) {
+
+    /**
+     *
+     * @param action
+     * @param pageHandler
+     * @return
+     */
+    public String onPage(final ActionsInput action, final PageHandler pageHandler) {
         if (action.getFeature().equals("purchase")) {
-            if (pageHandler.getCurrentUser().buy(action.getMovie())) {
+            if (pageHandler.getCurrentUser().buy(pageHandler.getPrintMovie().get(0))) {
                 return null;
             }
         } else if (action.getFeature().equals("watch")) {
-            if (pageHandler.getCurrentUser().watch(action.getMovie())) {
+            if (pageHandler.getCurrentUser().watch(pageHandler.getPrintMovie().get(0))) {
                 return null;
             }
-        } else if (pageHandler.getCurrentUser().isWatched(action.getMovie())) {
+        } else if (pageHandler.getCurrentUser().isWatched(pageHandler.getPrintMovie().
+                get(0).getName())) {
             if (action.getFeature().equals("like")) {
+                pageHandler.getCurrentUser().like(pageHandler.getPrintMovie().get(0).getName());
                 return null;
             } else if (action.getFeature().equals("rate")) {
-                return null;
+                return pageHandler.getCurrentUser().rate(pageHandler.getPrintMovie().get(0).
+                        getName(), action.getRate());
             }
         }
         return "Error";
     }
 
-    public void getMovies(ActionsInput action, PageHandler pageHandler) {
-        ArrayList <Movie> movies = new ArrayList<>();
+    /**
+     *
+     * @param action
+     * @param pageHandler
+     */
+    public void getMovies(final ActionsInput action, final PageHandler pageHandler) {
+        ArrayList<Movie> movies = new ArrayList<>();
         Movie movie = search(pageHandler.getPrintMovie(), action.getMovie());
-        if (movie != null)
+        if (movie != null) {
             movies.add(movie);
+        }
         pageHandler.copyMovies(movies);
     }
 
-    private Movie search(ArrayList<Movie> movies, String name) {
+    /**
+     *
+     * @param movies
+     * @param name
+     * @return
+     */
+    private Movie search(final ArrayList<Movie> movies, final String name) {
         for (var movie: movies) {
             if (movie.getName().equals(name)) {
                 return movie;
@@ -58,6 +79,10 @@ public class SeeDetails extends Page{
         return null;
     }
 
+    /**
+     * Lazy singleton
+     * @return
+     */
     public static SeeDetails getInstance() {
         if (instance == null) {
             instance = new SeeDetails();

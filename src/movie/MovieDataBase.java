@@ -1,22 +1,31 @@
 package movie;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-
 import java.util.ArrayList;
 
-public class MovieDataBase {
+public final class MovieDataBase {
     private static MovieDataBase instance = null;
     private ArrayList<Movie> movies;
-    private MovieDataBase(){}
+    private MovieDataBase() {
+
+    }
+
+    /**
+     * lazy singleton
+     * @return instance
+     */
     public static MovieDataBase getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new MovieDataBase();
         }
         return instance;
     }
 
-    public Movie find(String name) {
+    /**
+     *
+     * @param name
+     * @return
+     */
+    public Movie find(final String name) {
         for (var movie: movies) {
             if (movie.getName().equals(name)) {
                 return movie;
@@ -24,6 +33,19 @@ public class MovieDataBase {
         }
         return null;
     }
+
+    /**
+     *
+     * @param name
+     */
+    public void like(final String name) {
+        Movie movie = find(name);
+        movie.setNumLiked(movie.getNumLiked() + 1);
+    }
+
+    /**
+     * init a new MovieDataBase
+     */
     public void newArray() {
         movies = new ArrayList<>();
     }
@@ -32,7 +54,7 @@ public class MovieDataBase {
         return movies;
     }
 
-    public void setMovies(ArrayList<Movie> movies) {
+    public void setMovies(final ArrayList<Movie> movies) {
         this.movies = movies;
     }
 }

@@ -7,54 +7,44 @@ public class CredentialsInput {
     private String country;
     private String balance;
 
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public final void setName(final String name) {
         this.name = name;
     }
 
-    public String getPassword() {
+    public final String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public final void setPassword(final String password) {
         this.password = password;
     }
 
-    public String getAccountType() {
+    public final String getAccountType() {
         return accountType;
     }
 
-    public void setAccountType(String accountType) {
+    public final void setAccountType(final String accountType) {
         this.accountType = accountType;
     }
 
-    public String getCountry() {
+    public final String getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
+    public final void setCountry(final String country) {
         this.country = country;
     }
 
-    public String getBalance() {
+    public final String getBalance() {
         return balance;
     }
 
-    public void setBalance(String balance) {
+    public final void setBalance(final String balance) {
         this.balance = balance;
     }
 
-    @Override
-    public String toString() {
-        return "CredentialsInput{" +
-                "name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", accountType='" + accountType + '\'' +
-                ", country='" + country + '\'' +
-                ", balance='" + balance + '\'' +
-                '}';
-    }
 }

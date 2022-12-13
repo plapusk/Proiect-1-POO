@@ -2,7 +2,6 @@ package page;
 
 import admin.PageHandler;
 import input.ActionsInput;
-import user.User;
 
 import java.util.ArrayList;
 
@@ -10,34 +9,52 @@ public abstract class Page {
     private ArrayList<Page> subPages;
     private String name;
 
-    public Page(String name){
+    public Page(final String name) {
         subPages = new ArrayList<>();
         this.name = name;
     }
 
-    public Page changePage(String name) {
+    /**
+     *
+     * @param namePage
+     * @return
+     */
+    public Page changePage(final String namePage) {
         for (var page: subPages) {
-            if (page.getName().equals(name))
+            if (page.getName().equals(namePage)) {
                 return page;
+            }
         }
         return null;
     }
 
+    /**
+     *
+     * @param action
+     * @param pageHandler
+     * @return
+     */
     public abstract String onPage(ActionsInput action, PageHandler pageHandler);
+
+    /**
+     *
+     * @param action
+     * @param pageHandler
+     */
     public abstract void getMovies(ActionsInput action, PageHandler pageHandler);
-    public ArrayList<Page> getSubPages() {
+    public final ArrayList<Page> getSubPages() {
         return subPages;
     }
 
-    public void setSubPages(ArrayList<Page> subPages) {
+    public final void setSubPages(final ArrayList<Page> subPages) {
         this.subPages = subPages;
     }
 
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public final void setName(final String name) {
         this.name = name;
     }
 

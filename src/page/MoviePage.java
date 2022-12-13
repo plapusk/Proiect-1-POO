@@ -2,15 +2,12 @@ package page;
 
 import admin.PageHandler;
 import input.ActionsInput;
-import input.UsersInput;
 import movie.Movie;
 import movie.MovieDataBase;
-import user.User;
-import user.UserDataBase;
 
 import java.util.ArrayList;
 
-public class MoviePage extends Page{
+public final class MoviePage extends Page {
     private static MoviePage instance = null;
 
     private MoviePage() {
@@ -22,20 +19,33 @@ public class MoviePage extends Page{
         subPages.add(this);
         subPages.add(NotLogged.getInstance());
         subPages.add(HomePage.getInstance());
+        subPages.add(SeeDetails.getInstance());
     }
 
-    public String onPage(ActionsInput action, PageHandler pageHandler) {
+    /**
+     *
+     * @param action
+     * @param pageHandler
+     * @return
+     */
+    public String onPage(final ActionsInput action, final PageHandler pageHandler) {
         if (action.getFeature().equals("search")) {
             pageHandler.setPrintMovie(search(action, pageHandler));
             return null;
-        } else if (action.getFeature().equals("filter")){
+        } else if (action.getFeature().equals("filter")) {
             pageHandler.copyMovies(filter(action, pageHandler));
             return null;
         }
         return "Error";
     }
 
-    public ArrayList<Movie> search(ActionsInput action, PageHandler pageHandler) {
+    /**
+     *
+     * @param action
+     * @param pageHandler
+     * @return
+     */
+    public ArrayList<Movie> search(final ActionsInput action, final PageHandler pageHandler) {
         ArrayList<Movie> movies = new ArrayList<>();
         for (var movie: pageHandler.getPrintMovie()) {
             if (movie.getName().startsWith(action.getStartsWith())) {
@@ -45,18 +55,35 @@ public class MoviePage extends Page{
         return movies;
     }
 
-    public ArrayList<Movie> filter(ActionsInput action, PageHandler pageHandler) {
-        pageHandler.setPrintMovie(MovieDataBase.getInstance().getMovies());
+    /**
+     *
+     * @param action
+     * @param pageHandler
+     * @return
+     */
+    public ArrayList<Movie> filter(final ActionsInput action, final PageHandler pageHandler) {
+        pageHandler.copyMovies(MovieDataBase.getInstance().getMovies());
         ArrayList<Movie> movies = pageHandler.getPrintMovie();
         movies.removeIf((x) -> !x.contains(action.getFilters().getContains()));
+        pageHandler.sort(action.getFilters().getSort());
         return movies;
     }
 
-    public void getMovies(ActionsInput action, PageHandler pageHandler) {
-        ArrayList <Movie> movies = MovieDataBase.getInstance().getMovies();
+    /**
+     *
+     * @param action
+     * @param pageHandler
+     */
+    public void getMovies(final ActionsInput action, final PageHandler pageHandler) {
+        ArrayList<Movie> movies = MovieDataBase.getInstance().getMovies();
         pageHandler.copyMovies(movies);
     }
-    public static MoviePage getInstance(){
+
+    /**
+     * Lazy Singleton
+     * @return
+     */
+    public static MoviePage getInstance() {
         if (instance == null) {
             instance = new MoviePage();
             instance.init();

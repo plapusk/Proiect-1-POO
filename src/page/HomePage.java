@@ -6,7 +6,7 @@ import movie.Movie;
 
 import java.util.ArrayList;
 
-public class HomePage extends Page{
+public final class HomePage extends Page {
     private static HomePage instance = null;
 
     private HomePage() {
@@ -20,15 +20,31 @@ public class HomePage extends Page{
         subPages.add(MoviePage.getInstance());
         subPages.add(Upgrades.getInstance());
     }
-    public String onPage(ActionsInput action, PageHandler pageHandler) {
+
+    /**
+     *
+     * @param action
+     * @param pageHandler
+     * @return
+     */
+    public String onPage(final ActionsInput action, final PageHandler pageHandler) {
         return "Error";
     }
 
-    public void getMovies(ActionsInput action ,PageHandler pageHandler) {
-        ArrayList <Movie> movies = new ArrayList<>();
+    /**
+     *
+     * @param action
+     * @param pageHandler
+     */
+    public void getMovies(final ActionsInput action, final PageHandler pageHandler) {
+        ArrayList<Movie> movies = new ArrayList<>();
         pageHandler.copyMovies(movies);
     }
 
+    /**
+     * Lazy singleton
+     * @return
+     */
     public static HomePage getInstance() {
         if (instance == null) {
             instance = new HomePage();

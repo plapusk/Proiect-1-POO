@@ -79,7 +79,7 @@ class TestType {
 
     public String getType() {
         return type;
-    }   
+    }
     public void setType(final String type) {
         this.type = type;
     }

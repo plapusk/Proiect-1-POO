@@ -21,7 +21,7 @@ public class Movie {
     private double rating;
     private static final double DECIMALS = 100;
 
-    public Movie(MoviesInput moviesInput) {
+    public Movie(final MoviesInput moviesInput) {
         this.name = moviesInput.getName();
         this.year = moviesInput.getYear();
         this.duration = moviesInput.getDuration();
@@ -34,7 +34,7 @@ public class Movie {
         this.rating = 0;
     }
 
-    public Movie(Movie moviesInput) {
+    public Movie(final Movie moviesInput) {
         this.name = moviesInput.getName();
         this.year = moviesInput.getYear();
         this.duration = moviesInput.getDuration();
@@ -47,10 +47,16 @@ public class Movie {
         this.rating = 0;
     }
 
-    public boolean contains(Contains contains) {
+    /**
+     *
+     * @param contains
+     * @return
+     */
+    public final boolean contains(final Contains contains) {
         boolean flag = false;
-        if (contains == null)
+        if (contains == null) {
             return true;
+        }
         if (contains.getActors() != null) {
             for (var actor : contains.getActors()) {
                 for (var myActor : actors) {
@@ -58,10 +64,11 @@ public class Movie {
                         flag = true;
                     }
                 }
-                if (flag)
+                if (flag) {
                     flag = false;
-                else
+                } else {
                     return false;
+                }
             }
         }
         if (contains.getGenre() != null) {
@@ -71,39 +78,54 @@ public class Movie {
                         flag = true;
                     }
                 }
-                if (flag)
+                if (flag) {
                     flag = false;
-                else
+                } else {
                     return false;
+                }
             }
         }
         return true;
     }
 
-    public boolean checkCountry(String country) {
+    /**
+     *
+     * @param country
+     * @return
+     */
+    public final boolean checkCountry(final String country) {
         for (var banned: countriesBanned) {
-            if (banned.equals(country))
+            if (banned.equals(country)) {
                 return false;
+            }
         }
         return true;
     }
 
-    public ObjectNode movieJSON(ObjectMapper mapper) {
+    /**
+     *
+     * @param mapper
+     * @return
+     */
+    public final ObjectNode movieJSON(final ObjectMapper mapper) {
         ObjectNode obj = mapper.createObjectNode();
         obj.put("name", name);
         obj.put("year", Integer.valueOf(year));
         obj.put("duration", duration);
         ArrayNode arr = mapper.createArrayNode();
-        for (var genre: genres)
+        for (var genre: genres) {
             arr.add(genre);
+        }
         obj.set("genres", arr);
         arr = mapper.createArrayNode();
-        for (var actor: actors)
+        for (var actor: actors) {
             arr.add(actor);
+        }
         obj.set("actors", arr);
         arr = mapper.createArrayNode();
-        for (var countrieBanned: countriesBanned)
+        for (var countrieBanned: countriesBanned) {
             arr.add(countrieBanned);
+        }
         obj.set("countriesBanned", arr);
         obj.put("numLikes", numLiked);
         obj.put("rating", rating / DECIMALS);
@@ -111,51 +133,93 @@ public class Movie {
         return obj;
     }
 
-    public String getName() {
+    /**
+     *
+     * @param x
+     */
+    public final void rate(final double x) {
+        rating *= numRating;
+        numRating++;
+        rating += x * DECIMALS;
+        rating /= numRating;
+    }
+    public final String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public final void setName(final String name) {
         this.name = name;
     }
 
-    public String getYear() {
+    public final String getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    public final void setYear(final String year) {
         this.year = year;
     }
 
-    public int getDuration() {
+    public final int getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public final void setDuration(final int duration) {
         this.duration = duration;
     }
 
-    public ArrayList<String> getGenres() {
+    public final ArrayList<String> getGenres() {
         return genres;
     }
 
-    public void setGenres(ArrayList<String> genres) {
+    public final void setGenres(final ArrayList<String> genres) {
         this.genres = genres;
     }
 
-    public ArrayList<String> getActors() {
+    public final ArrayList<String> getActors() {
         return actors;
     }
 
-    public void setActors(ArrayList<String> actors) {
+    public final void setActors(final ArrayList<String> actors) {
         this.actors = actors;
     }
 
-    public ArrayList<String> getCountriesBanned() {
+    public final ArrayList<String> getCountriesBanned() {
         return countriesBanned;
     }
 
-    public void setCountriesBanned(ArrayList<String> countriesBanned) {
+    public final void setCountriesBanned(final ArrayList<String> countriesBanned) {
         this.countriesBanned = countriesBanned;
+    }
+
+    public final int getNumWatched() {
+        return numWatched;
+    }
+
+    public final void setNumWatched(final int numWatched) {
+        this.numWatched = numWatched;
+    }
+
+    public final int getNumLiked() {
+        return numLiked;
+    }
+
+    public final void setNumLiked(final int numLiked) {
+        this.numLiked = numLiked;
+    }
+
+    public final int getNumRating() {
+        return numRating;
+    }
+
+    public final void setNumRating(final int numRating) {
+        this.numRating = numRating;
+    }
+
+    public final double getRating() {
+        return rating;
+    }
+
+    public final void setRating(final double rating) {
+        this.rating = rating * DECIMALS;
     }
 }

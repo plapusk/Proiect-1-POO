@@ -10,63 +10,51 @@ public class MoviesInput {
     private ArrayList<String> actors;
     private ArrayList<String> countriesBanned;
 
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public final void setName(final String name) {
         this.name = name;
     }
 
-    public String getYear() {
+    public final String getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    public final void setYear(final String year) {
         this.year = year;
     }
 
-    public int getDuration() {
+    public final int getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public final void setDuration(final int duration) {
         this.duration = duration;
     }
 
-    public ArrayList<String> getGenres() {
+    public final ArrayList<String> getGenres() {
         return genres;
     }
 
-    public void setGenres(ArrayList<String> genres) {
+    public final void setGenres(final ArrayList<String> genres) {
         this.genres = genres;
     }
 
-    public ArrayList<String> getActors() {
+    public final ArrayList<String> getActors() {
         return actors;
     }
 
-    public void setActors(ArrayList<String> actors) {
+    public final void setActors(final ArrayList<String> actors) {
         this.actors = actors;
     }
 
-    public ArrayList<String> getCountriesBanned() {
+    public final ArrayList<String> getCountriesBanned() {
         return countriesBanned;
     }
 
-    public void setCountriesBanned(ArrayList<String> countriesBanned) {
+    public final void setCountriesBanned(final ArrayList<String> countriesBanned) {
         this.countriesBanned = countriesBanned;
-    }
-
-    @Override
-    public String toString() {
-        return "MoviesInput{" +
-                "name='" + name + '\'' +
-                ", year='" + year + '\'' +
-                ", duration=" + duration +
-                ", genres=" + genres +
-                ", actors=" + actors +
-                ", countriesBanned=" + countriesBanned +
-                '}';
     }
 }

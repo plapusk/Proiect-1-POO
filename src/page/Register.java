@@ -9,7 +9,7 @@ import user.UserDataBase;
 
 import java.util.ArrayList;
 
-public class Register extends Page{
+public final class Register extends Page {
     private static Register instance = null;
 
     private Register() {
@@ -21,13 +21,21 @@ public class Register extends Page{
         subPages.add(this);
     }
 
-    public String onPage(ActionsInput action, PageHandler pageHandler) {
-        if (!action.getFeature().equals("register"))
+    /**
+     *
+     * @param action
+     * @param pageHandler
+     * @return
+     */
+    public String onPage(final ActionsInput action, final PageHandler pageHandler) {
+        if (!action.getFeature().equals("register")) {
             return "Error";
+        }
 
         pageHandler.setCurrentPage(NotLogged.getInstance());
-        if (UserDataBase.getInstance().userExist(action.getCredentials().getName()))
+        if (UserDataBase.getInstance().userExist(action.getCredentials().getName())) {
             return "Error";
+        }
 
         pageHandler.setCurrentPage(HomePage.getInstance());
 
@@ -39,11 +47,21 @@ public class Register extends Page{
         return null;
     }
 
-    public void getMovies(ActionsInput action, PageHandler pageHandler) {
-        ArrayList <Movie> movies = new ArrayList<>();
+    /**
+     *
+     * @param action
+     * @param pageHandler
+     */
+    public void getMovies(final ActionsInput action, final PageHandler pageHandler) {
+        ArrayList<Movie> movies = new ArrayList<>();
         pageHandler.copyMovies(movies);
     }
-    public static Register getInstance(){
+
+    /**
+     * Lazy singleton
+     * @return
+     */
+    public static Register getInstance() {
         if (instance == null) {
             instance = new Register();
             instance.init();

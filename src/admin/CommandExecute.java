@@ -9,6 +9,7 @@ import input.MoviesInput;
 import input.UsersInput;
 import movie.Movie;
 import movie.MovieDataBase;
+import page.MoviePage;
 import user.User;
 import user.UserDataBase;
 
@@ -42,6 +43,11 @@ public class CommandExecute {
         return movies;
     }
 
+    /**
+     *
+     * @param mapper
+     * @return output
+     */
     public ArrayNode doCommand(final ObjectMapper mapper) {
         ArrayNode output = mapper.createArrayNode();
         for (var action: input.getActions()) {
@@ -49,8 +55,9 @@ public class CommandExecute {
                 output = changePage(mapper, output, action);
             } else if (action.getType().equals("on page")) {
                 String error = pageHandler.getCurrentPage().onPage(action, pageHandler);
-                if (error == null || error.equals("Error"))
+                if (error == null || error.equals("Error")) {
                     output.add(createError(mapper, error));
+                }
             } else {
                 output.add(createError(mapper, "Error"));
             }
@@ -65,9 +72,18 @@ public class CommandExecute {
         }
         if (pageHandler.changePage(action.getPage()) == 0) {
             pageHandler.getCurrentPage().getMovies(action, pageHandler);
-            if (pageHandler.getCurrentPage().getName().equals("movies") ||
-            pageHandler.getCurrentPage().getName().equals("see details"))
+            if (pageHandler.getCurrentPage().getName().equals("movies")) {
                 output.add(createError(mapper, null));
+            }
+            if (pageHandler.getCurrentPage().getName().equals("see details")) {
+                if (pageHandler.getPrintMovie().size() > 0) {
+                    output.add(createError(mapper, null));
+                } else {
+                    pageHandler.setCurrentPage(MoviePage.getInstance());
+                    MoviePage.getInstance().getMovies(action, pageHandler);
+                    output.add(createError(mapper, "Error"));
+                }
+            }
             return output;
         }
 
@@ -95,10 +111,11 @@ public class CommandExecute {
         return obj;
     }
 
-    public ArrayNode getMovieJSON(ObjectMapper mapper, ArrayList<Movie> movies) {
+    private ArrayNode getMovieJSON(final ObjectMapper mapper, final ArrayList<Movie> movies) {
         ArrayNode arr = mapper.createArrayNode();
-        for (var movie: movies)
+        for (var movie: movies) {
             arr.add(movie.movieJSON(mapper));
+        }
         return arr;
     }
 }

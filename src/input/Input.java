@@ -6,36 +6,27 @@ public class Input {
     private ArrayList<MoviesInput> movies;
     private ArrayList<ActionsInput> actions;
 
-    public ArrayList<input.UsersInput> getUsers() {
+    public final ArrayList<input.UsersInput> getUsers() {
         return users;
     }
 
-    public void setUsers(ArrayList<input.UsersInput> users) {
+    public final void setUsers(final ArrayList<input.UsersInput> users) {
         this.users = users;
     }
 
-    public ArrayList<input.MoviesInput> getMovies() {
+    public final ArrayList<input.MoviesInput> getMovies() {
         return movies;
     }
 
-    public void setMovies(ArrayList<input.MoviesInput> movies) {
+    public final void setMovies(final ArrayList<input.MoviesInput> movies) {
         this.movies = movies;
     }
 
-    public ArrayList<input.ActionsInput> getActions() {
+    public final ArrayList<input.ActionsInput> getActions() {
         return actions;
     }
 
-    public void setActions(ArrayList<input.ActionsInput> actions) {
+    public final void setActions(final ArrayList<input.ActionsInput> actions) {
         this.actions = actions;
-    }
-
-    @Override
-    public String toString() {
-        return "Input{" +
-                "users=" + users +
-                ", movies=" + movies +
-                ", actions=" + actions +
-                '}';
     }
 }

@@ -4,10 +4,9 @@ import admin.PageHandler;
 import input.ActionsInput;
 import movie.Movie;
 
-import java.awt.event.HierarchyBoundsAdapter;
 import java.util.ArrayList;
 
-public class NotLogged extends Page{
+public final class NotLogged extends Page {
     private static NotLogged instance = null;
 
     private NotLogged() {
@@ -16,20 +15,35 @@ public class NotLogged extends Page{
 
     void init() {
         ArrayList<Page> subPages = super.getSubPages();
-        subPages.add(this);
         subPages.add(Login.getInstance());
         subPages.add(Register.getInstance());
         subPages.add(HomePage.getInstance());
     }
 
-    public String onPage(ActionsInput action, PageHandler pageHandler) {
+    /**
+     *
+     * @param action
+     * @param pageHandler
+     * @return
+     */
+    public String onPage(final ActionsInput action, final PageHandler pageHandler) {
         return "Error";
     }
 
-    public void getMovies(ActionsInput action, PageHandler pageHandler) {
-        ArrayList <Movie> movies = new ArrayList<>();
+    /**
+     *
+     * @param action
+     * @param pageHandler
+     */
+    public void getMovies(final ActionsInput action, final PageHandler pageHandler) {
+        ArrayList<Movie> movies = new ArrayList<>();
         pageHandler.copyMovies(movies);
     }
+
+    /**
+     *
+     * @return
+     */
     public static NotLogged getInstance() {
         if (instance == null) {
             instance = new NotLogged();

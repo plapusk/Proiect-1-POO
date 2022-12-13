@@ -11,20 +11,24 @@ public class Credentials {
     private String country;
     private int balance;
 
-    public Credentials(CredentialsInput credentials) {
+    public Credentials(final CredentialsInput credentials) {
         this.name = credentials.getName();
         this.password = credentials.getPassword();
         if (credentials.getAccountType().equals("standard")) {
             this.premium = false;
-        }
-        else {
+        } else {
             this.premium = true;
         }
         this.country = credentials.getCountry();
         this.balance =  Integer.valueOf(credentials.getBalance());
     }
 
-    public ObjectNode getJSON(ObjectMapper mapper) {
+    /**
+     *
+     * @param mapper
+     * @return
+     */
+    public ObjectNode getJSON(final ObjectMapper mapper) {
         ObjectNode obj = mapper.createObjectNode();
         obj.put("name", name);
         obj.put("password", password);
@@ -35,48 +39,49 @@ public class Credentials {
     }
 
     private String getPremiumStr() {
-        if (premium)
+        if (premium) {
             return "premium";
+        }
         return "standard";
     }
 
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public final void setName(final String name) {
         this.name = name;
     }
 
-    public String getPassword() {
+    public final String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public final void setPassword(final String password) {
         this.password = password;
     }
 
-    public boolean isPremium() {
+    public final boolean isPremium() {
         return premium;
     }
 
-    public void setPremium(boolean premium) {
+    public final void setPremium(final boolean premium) {
         this.premium = premium;
     }
 
-    public String getCountry() {
+    public final String getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
+    public final void setCountry(final String country) {
         this.country = country;
     }
 
-    public int getBalance() {
+    public final int getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public final void setBalance(final int balance) {
         this.balance = balance;
     }
 }
