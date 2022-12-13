@@ -107,7 +107,7 @@
       "startsWith": "Iubire din serai"
     },
     {
-      "type": "on page",
+        "type": "on page",
       "feature": "filter",
       "filters": {
         "sort": {

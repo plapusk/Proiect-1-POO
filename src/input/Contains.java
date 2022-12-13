@@ -2,7 +2,7 @@ package input;
 
 import java.util.ArrayList;
 
-class Contains {
+public class Contains {
     private ArrayList<String> actors;
     private ArrayList<String> genre;
 

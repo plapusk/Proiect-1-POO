@@ -24,6 +24,7 @@ public abstract class Page {
     }
 
     public abstract String onPage(ActionsInput action, PageHandler pageHandler);
+    public abstract void getMovies(ActionsInput action, PageHandler pageHandler);
     public ArrayList<Page> getSubPages() {
         return subPages;
     }
@@ -39,4 +40,5 @@ public abstract class Page {
     public void setName(String name) {
         this.name = name;
     }
+
 }

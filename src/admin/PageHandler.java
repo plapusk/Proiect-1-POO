@@ -1,14 +1,18 @@
 package admin;
 
+import movie.Movie;
 import page.NotLogged;
 import page.Page;
 import user.User;
 
+import java.util.ArrayList;
+
 public class PageHandler {
     private Page currentPage;
     private User currentUser;
-    private User userError;
+    private ArrayList<Movie> printMovie;
     public PageHandler() {
+        printMovie = new ArrayList<>();
         currentPage = NotLogged.getInstance();
         currentUser = null;
     }
@@ -38,11 +42,22 @@ public class PageHandler {
         this.currentUser = currentUser;
     }
 
-    public User getUserError() {
-        return userError;
+    public ArrayList<Movie> getPrintMovie() {
+        return printMovie;
     }
 
-    public void setUserError(User userError) {
-        this.userError = userError;
+    public void setPrintMovie(ArrayList<Movie> printMovie) {
+        this.printMovie = printMovie;
     }
+
+    public void copyMovies(ArrayList<Movie> movies) {
+        printMovie = new ArrayList<>();
+        for (var movie: movies) {
+            if (currentUser == null || movie.checkCountry(currentUser.getCredentials().getCountry())) {
+                printMovie.add(movie);
+            }
+        }
+    }
+
+
 }

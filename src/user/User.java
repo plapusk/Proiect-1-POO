@@ -3,21 +3,23 @@ package user;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import input.CredentialsInput;
 import input.UsersInput;
 import movie.Movie;
+import movie.MovieDataBase;
 
 import java.util.ArrayList;
 
 public class User {
     private Credentials credentials;
     private int tokenCount;
+    private int freeMovies;
     private ArrayList<Movie> movies;
     private ArrayList<Movie> watchedMovies;
     private ArrayList<Movie> likedMovies;
 
     private ArrayList<Movie> ratedMovies;
     private static final int NUMBER_FREE_MOVIES = 15;
+    private static final int PREMIUM_PRICE = 10;
 
     public User(UsersInput usersInput) {
         credentials = new Credentials(usersInput.getCredentials());
@@ -26,6 +28,49 @@ public class User {
         this.likedMovies = new ArrayList<>();
         this.ratedMovies = new ArrayList<>();
         this.tokenCount = 0;
+        if (credentials.isPremium())
+            setPremium();
+    }
+
+    public boolean isWatched(String name) {
+        for (var movie: watchedMovies) {
+            if (movie.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean buy(String name) {
+        if (freeMovies <= 0 && tokenCount < 2) {
+            return false;
+        }
+        Movie movie = new Movie(MovieDataBase.getInstance().find(name));
+        if (movie == null)
+            return false;
+        movies.add(movie);
+        return true;
+    }
+
+    public Movie isBought(String name) {
+        for (var movie: movies) {
+            if (movie.getName().equals(name)) {
+                return movie;
+            }
+        }
+        return null;
+    }
+    public boolean watch(String name) {
+        Movie movie = isBought(name);
+        if (movie == null)
+            return false;
+        watchedMovies.add(movie);
+        return true;
+    }
+
+    public void buyTokens(int x) {
+        credentials.setBalance(credentials.getBalance() - x);
+        tokenCount += x;
     }
 
     public ArrayNode getMoviesJSON(ArrayList<Movie> movies, ObjectMapper mapper) {
@@ -45,6 +90,10 @@ public class User {
         obj.set("likedMovies", getMoviesJSON(likedMovies, mapper));
         obj.set("ratedMovies", getMoviesJSON(ratedMovies, mapper));
         return obj;
+    }
+
+    public boolean hasPremiumTokens() {
+        return PREMIUM_PRICE <= tokenCount;
     }
 
     public Credentials getCredentials() {
@@ -85,5 +134,13 @@ public class User {
 
     public void setLikedMovies(ArrayList<Movie> likedMovies) {
         this.likedMovies = likedMovies;
+    }
+
+    public void setPremium() {
+        credentials.setPremium(true);
+        freeMovies = NUMBER_FREE_MOVIES;
+    }
+    public void payPremium() {
+        tokenCount -= PREMIUM_PRICE;
     }
 }

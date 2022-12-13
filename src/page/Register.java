@@ -3,6 +3,7 @@ package page;
 import admin.PageHandler;
 import input.ActionsInput;
 import input.UsersInput;
+import movie.Movie;
 import user.User;
 import user.UserDataBase;
 
@@ -13,15 +14,18 @@ public class Register extends Page{
 
     private Register() {
         super("register");
+    }
+
+    void init() {
         ArrayList<Page> subPages = super.getSubPages();
         subPages.add(this);
     }
+
     public String onPage(ActionsInput action, PageHandler pageHandler) {
         if (!action.getFeature().equals("register"))
             return "Error";
 
         pageHandler.setCurrentPage(NotLogged.getInstance());
-        pageHandler.setUserError(null);
         if (UserDataBase.getInstance().userExist(action.getCredentials().getName()))
             return "Error";
 
@@ -31,12 +35,19 @@ public class Register extends Page{
         user.setCredentials(action.getCredentials());
         User newUser = new User(user);
         UserDataBase.getInstance().addUser(newUser);
-        pageHandler.setUserError(newUser);
+        pageHandler.setCurrentUser(newUser);
         return null;
     }
+
+    public void getMovies(ActionsInput action, PageHandler pageHandler) {
+        ArrayList <Movie> movies = new ArrayList<>();
+        pageHandler.copyMovies(movies);
+    }
     public static Register getInstance(){
-        if (instance == null)
+        if (instance == null) {
             instance = new Register();
+            instance.init();
+        }
         return instance;
     }
 }

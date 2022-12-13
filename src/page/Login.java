@@ -2,6 +2,7 @@ package page;
 
 import admin.PageHandler;
 import input.ActionsInput;
+import movie.Movie;
 import user.User;
 import user.UserDataBase;
 
@@ -12,10 +13,12 @@ public class Login extends Page{
 
     private Login() {
         super("login");
+    }
+
+    void init() {
         ArrayList<Page> subPages = super.getSubPages();
         subPages.add(this);
     }
-
     public String onPage(ActionsInput action, PageHandler pageHandler) {
         if (!action.getFeature().equals("login"))
             return "Error";
@@ -25,18 +28,22 @@ public class Login extends Page{
 
         if (pageHandler.getCurrentUser() == null) {
             pageHandler.setCurrentPage(NotLogged.getInstance());
-            pageHandler.setUserError(null);
             return "Error";
         }
-
-        pageHandler.setUserError(pageHandler.getCurrentUser());
         pageHandler.setCurrentPage(HomePage.getInstance());
         return null;
     }
 
+    public void getMovies(ActionsInput action, PageHandler pageHandler) {
+        ArrayList <Movie> movies = new ArrayList<>();
+        pageHandler.copyMovies(movies);
+    }
+
     public static Login getInstance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new Login();
+            instance.init();
+        }
         return instance;
     }
 }

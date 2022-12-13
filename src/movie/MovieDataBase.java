@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class MovieDataBase {
     private static MovieDataBase instance = null;
-    public ArrayList<Movie> movies;
+    private ArrayList<Movie> movies;
     private MovieDataBase(){}
     public static MovieDataBase getInstance() {
         if(instance == null) {
@@ -16,11 +16,13 @@ public class MovieDataBase {
         return instance;
     }
 
-    public ArrayNode getJSON(ObjectMapper mapper) {
-        ArrayNode arr = mapper.createArrayNode();
-        for (var movie: movies)
-            arr.add(movie.movieJSON(mapper));
-        return arr;
+    public Movie find(String name) {
+        for (var movie: movies) {
+            if (movie.getName().equals(name)) {
+                return movie;
+            }
+        }
+        return null;
     }
     public void newArray() {
         movies = new ArrayList<>();

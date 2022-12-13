@@ -48,8 +48,9 @@ public class CommandExecute {
             if (action.getType().equals("change page")) {
                 output = changePage(mapper, output, action);
             } else if (action.getType().equals("on page")) {
-                output.add(createError(mapper, pageHandler.getCurrentPage().onPage(action,
-                        pageHandler)));
+                String error = pageHandler.getCurrentPage().onPage(action, pageHandler);
+                if (error == null || error.equals("Error"))
+                    output.add(createError(mapper, error));
             } else {
                 output.add(createError(mapper, "Error"));
             }
@@ -63,6 +64,10 @@ public class CommandExecute {
             pageHandler.setCurrentUser(null);
         }
         if (pageHandler.changePage(action.getPage()) == 0) {
+            pageHandler.getCurrentPage().getMovies(action, pageHandler);
+            if (pageHandler.getCurrentPage().getName().equals("movies") ||
+            pageHandler.getCurrentPage().getName().equals("see details"))
+                output.add(createError(mapper, null));
             return output;
         }
 
@@ -81,12 +86,19 @@ public class CommandExecute {
             obj.put("error", mapper.nullNode());
         }
 
-        obj.set("currentMoviesList", mapper.createArrayNode());
-        if (pageHandler.getUserError() == null) {
+        obj.set("currentMoviesList", getMovieJSON(mapper, pageHandler.getPrintMovie()));
+        if (pageHandler.getCurrentUser() == null) {
             obj.put("currentUser", mapper.nullNode());
         } else {
-            obj.put("currentUser", pageHandler.getUserError().getJSON(mapper));
+            obj.put("currentUser", pageHandler.getCurrentUser().getJSON(mapper));
         }
         return obj;
+    }
+
+    public ArrayNode getMovieJSON(ObjectMapper mapper, ArrayList<Movie> movies) {
+        ArrayNode arr = mapper.createArrayNode();
+        for (var movie: movies)
+            arr.add(movie.movieJSON(mapper));
+        return arr;
     }
 }
