@@ -23,7 +23,8 @@ public final class SeeDetails extends Page {
     }
 
     /**
-     *
+     * If we get a proper feature we add it in the respective list of the user and update the
+     * stats in the database if needed
      * @param action
      * @param pageHandler
      * @return
@@ -51,7 +52,8 @@ public final class SeeDetails extends Page {
     }
 
     /**
-     *
+     * check the if the given movie can be seen by the user and put it in the seen movie list,
+     * otherwise return an error
      * @param action
      * @param pageHandler
      */
@@ -64,12 +66,6 @@ public final class SeeDetails extends Page {
         pageHandler.copyMovies(movies);
     }
 
-    /**
-     *
-     * @param movies
-     * @param name
-     * @return
-     */
     private Movie search(final ArrayList<Movie> movies, final String name) {
         for (var movie: movies) {
             if (movie.getName().equals(name)) {

@@ -20,9 +20,10 @@ public class PageHandler {
     }
 
     /**
-     *
+     * Receives the name of the page it's supposed to change to, and checks if the page is
+     * accessible from our current page. if it is we change the current page to the new one
      * @param name
-     * @return
+     * @return if the function executed properly
      */
     public int changePage(final String name) {
         Page newPage = currentPage.changePage(name);
@@ -34,7 +35,9 @@ public class PageHandler {
     }
 
     /**
-     *
+     * The first part of the function determines for each parameter if we need to sort
+     * increasingly, decreasingly or not at all. We make a comparer based on the values we set
+     * and use the sort from collections
      * @param sort
      */
     public void sort(final Sort sort) {
@@ -95,7 +98,10 @@ public class PageHandler {
     }
 
     /**
-     *
+     * This functions makes a copy of a Movie Array list, while removing movies banned in the
+     * country of the current user.
+     * Note: this doesn't deep copy the movies inside, this is only used to be able to eliminate
+     * elements without messing with the movieDataBase
      * @param movies
      */
     public void copyMovies(final ArrayList<Movie> movies) {

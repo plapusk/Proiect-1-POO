@@ -44,7 +44,7 @@ public class CommandExecute {
     }
 
     /**
-     *
+     * This function gets all the actions input, executes them and updates the output fittingly
      * @param mapper
      * @return output
      */

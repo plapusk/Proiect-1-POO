@@ -23,7 +23,8 @@ public final class MoviePage extends Page {
     }
 
     /**
-     *
+     * If the feature is search or filter we change the movie list accordingly otherwise we return
+     * an error
      * @param action
      * @param pageHandler
      * @return
@@ -39,13 +40,7 @@ public final class MoviePage extends Page {
         return "Error";
     }
 
-    /**
-     *
-     * @param action
-     * @param pageHandler
-     * @return
-     */
-    public ArrayList<Movie> search(final ActionsInput action, final PageHandler pageHandler) {
+    private ArrayList<Movie> search(final ActionsInput action, final PageHandler pageHandler) {
         ArrayList<Movie> movies = new ArrayList<>();
         for (var movie: pageHandler.getPrintMovie()) {
             if (movie.getName().startsWith(action.getStartsWith())) {
@@ -55,13 +50,7 @@ public final class MoviePage extends Page {
         return movies;
     }
 
-    /**
-     *
-     * @param action
-     * @param pageHandler
-     * @return
-     */
-    public ArrayList<Movie> filter(final ActionsInput action, final PageHandler pageHandler) {
+    private ArrayList<Movie> filter(final ActionsInput action, final PageHandler pageHandler) {
         pageHandler.copyMovies(MovieDataBase.getInstance().getMovies());
         ArrayList<Movie> movies = pageHandler.getPrintMovie();
         movies.removeIf((x) -> !x.contains(action.getFilters().getContains()));
@@ -70,7 +59,7 @@ public final class MoviePage extends Page {
     }
 
     /**
-     *
+     * We send the entire MovieDataBase because it's all visible
      * @param action
      * @param pageHandler
      */

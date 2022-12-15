@@ -48,9 +48,10 @@ public class Movie {
     }
 
     /**
-     *
+     * This functions goes through all the elements inside a Contains class and searches if they
+     * also exist in their respective Array list from the movie
      * @param contains
-     * @return
+     * @return if a movie contains the genres and actors inside a Contains class from the input
      */
     public final boolean contains(final Contains contains) {
         boolean flag = false;
@@ -89,9 +90,9 @@ public class Movie {
     }
 
     /**
-     *
+     * goes through all the  banned countries and sees if our country is banned
      * @param country
-     * @return
+     * @return if country is banned
      */
     public final boolean checkCountry(final String country) {
         for (var banned: countriesBanned) {
@@ -103,9 +104,9 @@ public class Movie {
     }
 
     /**
-     *
+     * Adds all the relevant elements to a freshly created ObjectNode
      * @param mapper
-     * @return
+     * @return Object Node of the movie class
      */
     public final ObjectNode movieJSON(final ObjectMapper mapper) {
         ObjectNode obj = mapper.createObjectNode();
@@ -134,7 +135,7 @@ public class Movie {
     }
 
     /**
-     *
+     * changes the rating of a movie by the rating given by a user
      * @param x
      */
     public final void rate(final double x) {

@@ -24,7 +24,7 @@ public class Credentials {
     }
 
     /**
-     *
+     * Get ObjectNode for the credentials class
      * @param mapper
      * @return
      */

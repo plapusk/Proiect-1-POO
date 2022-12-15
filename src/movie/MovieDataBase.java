@@ -21,9 +21,9 @@ public final class MovieDataBase {
     }
 
     /**
-     *
+     * Goes through all the movies and checks if they have the same name
      * @param name
-     * @return
+     * @return the movie with the given name
      */
     public Movie find(final String name) {
         for (var movie: movies) {
@@ -32,15 +32,6 @@ public final class MovieDataBase {
             }
         }
         return null;
-    }
-
-    /**
-     *
-     * @param name
-     */
-    public void like(final String name) {
-        Movie movie = find(name);
-        movie.setNumLiked(movie.getNumLiked() + 1);
     }
 
     /**

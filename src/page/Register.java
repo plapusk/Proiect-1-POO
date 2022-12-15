@@ -22,7 +22,8 @@ public final class Register extends Page {
     }
 
     /**
-     *
+     * If we have the feature login we check if the user was not used before. If we succeed we
+     * change the page to logged in
      * @param action
      * @param pageHandler
      * @return
@@ -48,7 +49,7 @@ public final class Register extends Page {
     }
 
     /**
-     *
+     * change the movie list to an empty one because we have no movies on this page
      * @param action
      * @param pageHandler
      */

@@ -20,10 +20,11 @@ public final class Login extends Page {
     }
 
     /**
-     *
+     * If we have the feature login we check if we have the right credentials. If we succeed we
+     * change the page to logged in
      * @param action
      * @param pageHandler
-     * @return
+     * @return error or success
      */
     public String onPage(final ActionsInput action, final PageHandler pageHandler) {
         if (!action.getFeature().equals("login")) {
@@ -42,7 +43,7 @@ public final class Login extends Page {
     }
 
     /**
-     *
+     * change the movie list to an empty one because we have no movies on this page
      * @param action
      * @param pageHandler
      */

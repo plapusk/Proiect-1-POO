@@ -35,9 +35,8 @@ public class User {
     }
 
     /**
-     *
      * @param name
-     * @return
+     * @return if movie was watched
      */
     public final boolean isWatched(final String name) {
         for (var movie: watchedMovies) {
@@ -49,9 +48,9 @@ public class User {
     }
 
     /**
-     *
+     * We pay for the movie and add it into bought list
      * @param movie
-     * @return
+     * @return error or success
      */
     public final boolean buy(final Movie movie) {
         if ((freeMovies <= 0 || !credentials.isPremium()) && tokenCount < 2) {
@@ -66,9 +65,8 @@ public class User {
     }
 
     /**
-     *
      * @param name
-     * @return
+     * @return if movie was bought
      */
     public final boolean isBought(final String name) {
         for (var movie: movies) {
@@ -80,7 +78,7 @@ public class User {
     }
 
     /**
-     *
+     * add movie to watched list
      * @param movie
      * @return
      */
@@ -93,7 +91,7 @@ public class User {
     }
 
     /**
-     *
+     * Get the movie we like add it into liked list and change statistics in Database
      * @param name
      */
     public final void like(final String name) {
@@ -108,10 +106,10 @@ public class User {
     }
 
     /**
-     *
+     * Get the movie we rate add it into rated list and change statistics in Database
      * @param name
      * @param rate
-     * @return
+     * @return if we rated successfully
      */
     public final String rate(final String name, final double rate) {
         if (rate < 1 || rate > MAX_RATE) {
@@ -129,7 +127,7 @@ public class User {
     }
 
     /**
-     *
+     * Add tokens pay in balance
      * @param x
      */
     public final void buyTokens(final int x) {
@@ -138,10 +136,9 @@ public class User {
     }
 
     /**
-     *
      * @param moviesNode
      * @param mapper
-     * @return
+     * @return ArrayNode for a list of movies
      */
     public final ArrayNode getMoviesJSON(final ArrayList<Movie> moviesNode,
                                          final ObjectMapper mapper) {
@@ -153,9 +150,8 @@ public class User {
     }
 
     /**
-     *
      * @param mapper
-     * @return
+     * @return ObjectNode for the User class
      */
     public final ObjectNode getJSON(final ObjectMapper mapper) {
         ObjectNode obj = mapper.createObjectNode();
@@ -170,8 +166,7 @@ public class User {
     }
 
     /**
-     *
-     * @return
+     * @return returns if the user can buy premium
      */
     public boolean hasPremiumTokens() {
         return PREMIUM_PRICE <= tokenCount;
@@ -218,14 +213,14 @@ public class User {
     }
 
     /**
-     *
+     * set user to premium
      */
     public void setPremium() {
         credentials.setPremium(true);
     }
 
     /**
-     *
+     * Pay for premium
      */
     public void payPremium() {
         tokenCount -= PREMIUM_PRICE;

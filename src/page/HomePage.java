@@ -22,17 +22,16 @@ public final class HomePage extends Page {
     }
 
     /**
-     *
      * @param action
      * @param pageHandler
-     * @return
+     * @return error
      */
     public String onPage(final ActionsInput action, final PageHandler pageHandler) {
         return "Error";
     }
 
     /**
-     *
+     * change the movie list to an empty one because we have no movies on this page
      * @param action
      * @param pageHandler
      */

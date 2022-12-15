@@ -21,10 +21,9 @@ public final class NotLogged extends Page {
     }
 
     /**
-     *
      * @param action
      * @param pageHandler
-     * @return
+     * @return error
      */
     public String onPage(final ActionsInput action, final PageHandler pageHandler) {
         return "Error";

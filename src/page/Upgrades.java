@@ -21,7 +21,8 @@ public final class Upgrades extends Page {
     }
 
     /**
-     *
+     * if the features are right, and we have enough currency we return there's no need to print,
+     * otherwise we return an error
      * @param action
      * @param pageHandler
      * @return
@@ -42,7 +43,7 @@ public final class Upgrades extends Page {
     }
 
     /**
-     *
+     * change the movie list to an empty one because we have no movies on this page
      * @param action
      * @param pageHandler
      */
